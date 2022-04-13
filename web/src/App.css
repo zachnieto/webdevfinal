@@ -1,0 +1,62 @@
+.home-header {
+  font-size: 9vw;
+  color: white;
+  text-shadow: 0px 0px 20px #1e003c;
+}
+
+.main {
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+}
+
+.hover-hand {
+  cursor: pointer;
+}
+
+.nav-item {
+  transition: all .3s ease-out 0s;
+}
+
+.wd-button:hover {
+  cursor: pointer;
+  transform: translateY(-2px) !important;
+  background-color: #a24dd386 !important;
+  border-color: #a24dd386 !important;
+}
+
+.wd-button {
+  box-shadow: none !important;
+  background-color: rgba(149, 53, 255, .7) !important;
+}
+
+#tsparticles {
+  position: absolute !important;
+  z-index: -1 !important;
+  opacity: 50%;
+}
+
+
+.nav-link {
+  font-size: 125%;
+  color: white !important;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #a24dd386;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
