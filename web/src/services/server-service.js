@@ -7,17 +7,8 @@ const api = axios.create({
 });
 
 
-export const setSessionAuth = async (auth) => {
-    const resp = await api.post(`${API_BASE}api/session/set/auth/`, {
-        params: {
-            auth: auth
-        }
-    })
-    return resp.data;
-}
-
-export const setSessionUser = async (user) => {
-    const resp = await api.post(`${API_BASE}api/session/set/user/`, {
+export const updateUser = async (uid, user) => {
+    const resp = await api.put(`${API_BASE}/update/${uid}`, {
         params: {
             user: user
         }
@@ -25,22 +16,34 @@ export const setSessionUser = async (user) => {
     return resp.data;
 }
 
-export const setSessionGuilds = async (guilds) => {
-    const resp = await api.post(`${API_BASE}api/session/set/guilds/`, {
+export const deleteUser = async (uid) => {
+    const resp = await api.delete(`${API_BASE}/delete/${uid}`)
+    return resp.data;
+}
+
+export const login = async (user) => {
+    const resp = await api.put(`${API_BASE}/login`, {
         params: {
-            guilds: guilds
+            user: user
+        }
+    })
+    return resp.data;
+}
+
+export const logout = async () => {
+    const resp = await api.get(`${API_BASE}/logout`)
+    return resp.data;
+}
+export const signup = async (user) => {
+    const resp = await api.post(`${API_BASE}/signup`, {
+        params: {
+            user: user
         }
     })
     return resp.data;
 }
 
 export const getSession = async () => {
-    const resp = await api.get(`${API_BASE}api/session/get`)
+    const resp = await api.get(`${API_BASE}/api/session/get/`)
     return resp.data;
 }
-
-export const endSession = async () => {
-    const resp = await api.get(`${API_BASE}api/session/reset`)
-    return resp.data;
-}
-

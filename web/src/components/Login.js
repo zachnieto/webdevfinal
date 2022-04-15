@@ -1,9 +1,17 @@
 import React, {useState} from "react";
+import {login, signup} from "../actions/server-actions";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router";
 
 const Login = () => {
 
     const [hasAccount, setHasAccount] = useState(true)
     const [loggedInMsg, setLoggedInMsg] = useState("Need to create an account?")
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const toggleLogin = () => {
         setHasAccount(!hasAccount)
@@ -15,20 +23,35 @@ const Login = () => {
         }
     }
 
+    const loginSignup = async () => {
+        const user = {
+            'username': username,
+            'password': password
+        }
+
+        if (hasAccount) {
+            await login(dispatch, user)
+                .then(() => {
+                    navigate("/profile")
+                })
+                .catch(e => console.log(e))
+        } else {
+            await signup(dispatch, user)
+                .then(() => {
+                    navigate("/profile")
+                })
+                .catch(e => console.log(e))
+        }
+    }
+
     return (
         <div className="row justify-content-center">
             <div className="col-3 text-center align-items-center">
                 <h1>Login</h1>
-                <input className="form-control m-3" placeholder="Username"/>
-                <input className="form-control m-3" placeholder="Password" type="password"/>
-
-                {hasAccount ?
-                    <button className="btn btn-primary m-3">Login</button>
-
-                    :
-                    <button className="btn btn-primary m-3">Signup</button>
-
-                }
+                <input className="form-control m-3" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
+                <input className="form-control m-3" placeholder="Password" type="password" onChange={e => setPassword(e.target.value)}/>
+                <button className="btn btn-primary m-3" onClick={loginSignup}>{hasAccount ? "Login" : "Signup"}</button>
+                <h5>{error}</h5>
                 <h4 className="hover-hand" onClick={toggleLogin}>{loggedInMsg}</h4>
 
 

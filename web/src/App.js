@@ -7,22 +7,24 @@ import Navbar from "./components/Navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {getSession} from "./actions/server-actions";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 
 function App() {
 
     const dispatch = useDispatch()
-    const session = useSelector(state => state.sessionReducer)
 
     useEffect(() => {
-        const updateSession = async () => {
+        const fetchSession = async () => {
             await getSession(dispatch)
         }
-        updateSession()
+        fetchSession()
+            .catch(console.error)
     }, [])
 
+
     return (
-    <div className="container-fluid">
+    <div className="container-fluid min-vh-100">
 
         <Particles/>
         <Router>
@@ -30,6 +32,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/profile" element={<Profile/>}/>
             </Routes>
         </Router>
 

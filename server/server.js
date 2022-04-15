@@ -1,36 +1,41 @@
 import express from 'express';
 import session from 'express-session';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import sessionController from "./controllers/session.js";
-import pingController from "./controllers/ping-controller.js";
+import userController from "./controllers/user-controller.js";
 const app = express();
-import env from 'custom-env'
-env.env('dev')
+
 app.use(cors({
     credentials: true,
     origin: process.env.REACT_APP
 }));
 app.use(express.json());
 
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/webdev'
+mongoose.connect(CONNECTION_STRING);
+
+
 let sess = {
-    secret: process.env.SECRET,
+    secret: "SECRET",
     resave: false,
     saveUninitialized: true,
     cookie: {
         secure: true,
-        maxAge: 1000 * 60 * 60 * 48,
-        sameSite: 'none'
     }
 };
 
 if (process.env.APP_ENV === 'dev') {
+    console.log(process.env.REACT_APP)
     sess.cookie.secure = false;
+} else {
+    sess.cookie.sameSite = 'none';
 }
 
 app.set('trust proxy', 1)
 app.use(session(sess));
 
-pingController(app)
 sessionController(app)
+userController(app)
 
 app.listen(process.env.PORT || 4000);
