@@ -3,13 +3,15 @@ import session from 'express-session';
 import cors from 'cors';
 import sessionController from "./controllers/session.js";
 import pingController from "./controllers/ping-controller.js";
-const app = express();
+import igdbController from './controllers/igdb-controller.js';
 import env from 'custom-env'
+
+const app = express();
 env.env('dev')
-app.use(cors({
+app.use(cors(/*{
     credentials: true,
     origin: process.env.REACT_APP
-}));
+}*/));
 app.use(express.json());
 
 let sess = {
@@ -25,12 +27,13 @@ let sess = {
 
 if (process.env.APP_ENV === 'dev') {
     sess.cookie.secure = false;
+} else {
+    app.set('trust proxy', 1)
+    app.use(session(sess));
 }
-
-app.set('trust proxy', 1)
-app.use(session(sess));
 
 pingController(app)
 sessionController(app)
+igdbController(app)
 
 app.listen(process.env.PORT || 4000);
