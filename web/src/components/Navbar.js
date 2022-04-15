@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {FaUser, FaList} from "react-icons/fa";
 import {MdOutlineDashboardCustomize, MdOutlineFeaturedPlayList, MdOutlineApi} from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useNavigate, useLocation, Link} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {resetSession} from "../actions/server-actions";
 
@@ -35,7 +35,7 @@ const Navbar = () => {
                 <a className="nav-link" href="/"> <AiOutlineHome style={{fontSize: "1.2em", marginBottom: "6px"}}/>Home</a>
             </li>
             <li className="nav-item p-4">
-                <a className="nav-link" href="/search"><FaList style={{fontSize: "1.2em", marginBottom: "6px"}}/>Search</a>
+                <Link className="nav-link" to="/search"><FaList style={{fontSize: "1.2em", marginBottom: "6px"}}/>Search</Link>
             </li>
             {/*{ ?*/}
                 <li className="nav-item p-4 pe-5">
