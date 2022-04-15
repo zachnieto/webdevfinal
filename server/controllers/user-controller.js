@@ -8,10 +8,9 @@ const createUser = async (req, res) => {
     newUser.password = await bcrypt.hash(newUser.password, saltRounds)
 
     const existingUser = await userDao.findUserByUsername(newUser)
-    if (existingUser) {
+    if (existingUser)
         return res.status(403).send("An account already exists with this username")
-    }
-    console.log(newUser)
+
     const createdUser = await userDao.createUser(newUser);
     createdUser.password = "***"
     req.session.user = createdUser;
@@ -23,6 +22,9 @@ const updateUser = async (req, res) => {
     const userId = req.params.uid
     const existingUser = await userDao.findUserById(userId)
     const updatedUser = req.body.params.user;
+
+    if (existingUser.username !== updatedUser.username && await userDao.findUserByUsername(updatedUser.username))
+        return res.status(403).send("An account already exists with this username")
 
     if (updatedUser.password !== "***")
         updatedUser.password = await bcrypt.hash(updatedUser.password, saltRounds)
