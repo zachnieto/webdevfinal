@@ -12,8 +12,8 @@ const Navbar = () => {
     const dispatch = useDispatch()
 
     const logOut = async () => {
-        await logout(dispatch)
         navigate('/')
+        await logout(dispatch)
     }
 
     const logIn = () => {
