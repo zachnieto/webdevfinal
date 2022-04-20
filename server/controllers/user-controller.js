@@ -1,4 +1,4 @@
-import * as userDao from "../database/user-dao.js";
+import * as userDao from "../database/users/user-dao.js";
 import bcrypt from "bcrypt";
 
 const saltRounds = 10;
