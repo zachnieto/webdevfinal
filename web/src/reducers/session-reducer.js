@@ -1,11 +1,13 @@
+import { LOGOUT, SESSION, USER } from '../actions/server-actions';
+
 const sessionReducer = (state = {}, action) => {
-    console.log(state)
+    // console.log(state)
     switch (action.type) {
-        case 'SESSION':
+        case SESSION:
             return action.session;
-        case 'LOGOUT':
+        case LOGOUT:
             return {}
-        case 'USER':
+        case USER:
             return {
                 ...state,
                 user: action.user

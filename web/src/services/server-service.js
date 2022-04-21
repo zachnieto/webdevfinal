@@ -34,6 +34,7 @@ export const logout = async () => {
     const resp = await api.get(`${API_BASE}/logout`)
     return resp.data;
 }
+
 export const signup = async (user) => {
     const resp = await api.post(`${API_BASE}/signup`, {
         params: {
