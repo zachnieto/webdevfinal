@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getGameDetails } from '../services/game-service';
+import SecureContent from './SecureContent';
 
 const SearchDetails = () => {
 

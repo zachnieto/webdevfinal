@@ -1,7 +1,9 @@
+import { LOGOUT, SESSION, USER } from '../actions/server-actions';
+
 const sessionReducer = (state = {}, action) => {
-    console.log(state);
+    // console.log(state)
     switch (action.type) {
-        case 'SESSION':
+        case SESSION:
             return action.session;
         case 'LOGOUT':
             // Removes the user from the session, but keeps other information
