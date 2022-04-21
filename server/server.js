@@ -17,7 +17,9 @@ app.use(express.json());
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/webdev'
 mongoose.connect(CONNECTION_STRING);
-
+// TODO: How to do m2m relationship?
+// TODO: How do set up cookies/session correctly?
+// TODO: Redux store disappears on refresh. Check if getSession is working properly
 let sess = {
     secret: "SECRET",
     resave: false,

@@ -1,0 +1,1 @@
+import gameModel from './games-model';

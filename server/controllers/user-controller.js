@@ -44,7 +44,7 @@ const deleteUser = async (req, res) => {
 
 const logout = async (req, res) => {
     req.session.destroy();
-    res.send(200);
+    res.sendStatus(200);
 }
 
 const login = async (req, res) => {
@@ -61,10 +61,24 @@ const login = async (req, res) => {
     res.json(existingUser)
 }
 
+const toggleBookmark = async (req, res) => {
+    try {
+      const updatedUser = await userDao.toggleUserBookmark(req.body.userId, req.body.igdbId);
+      res.json(updatedUser);
+    }
+    catch (e) {
+        console.log(e);
+      res.status(400).send(e);
+    }
+  };
+  
+
 export default (app) => {
     app.put('/update/:uid', updateUser);
     app.delete('/delete/:uid', deleteUser);
     app.get('/logout', logout);
     app.put('/login', login);
     app.post('/signup', createUser);
+
+    app.patch('/api/bookmarks', toggleBookmark);
 }
