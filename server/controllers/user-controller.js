@@ -5,73 +5,62 @@ const saltRounds = 10;
 
 const createUser = async (req, res) => {
     const newUser = req.body.params.user;
-    newUser.password = await bcrypt.hash(newUser.password, saltRounds)
+    newUser.password = await bcrypt.hash(newUser.password, saltRounds);
 
-    const existingUser = await userDao.findUserByUsername(newUser)
+    const existingUser = await userDao.findUserByUsername(newUser);
     if (existingUser)
-        return res.status(403).send("An account already exists with this username")
+        return res.status(403).send("An account already exists with this username");
 
     const createdUser = await userDao.createUser(newUser);
-    createdUser.password = "***"
+    createdUser.password = "***";
     req.session.user = createdUser;
 
-    res.json(createdUser)
-}
+    res.json(createdUser);
+};
 
 const updateUser = async (req, res) => {
-    const userId = req.params.uid
-    const existingUser = await userDao.findUserById(userId)
+    const userId = req.params.uid;
+    const existingUser = await userDao.findUserById(userId);
     const updatedUser = req.body.params.user;
 
     if (existingUser.username !== updatedUser.username && await userDao.findUserByUsername(updatedUser.username))
-        return res.status(403).send("An account already exists with this username")
+        return res.status(403).send("An account already exists with this username");
 
     if (updatedUser.password !== "***")
-        updatedUser.password = await bcrypt.hash(updatedUser.password, saltRounds)
+        updatedUser.password = await bcrypt.hash(updatedUser.password, saltRounds);
     else
-        updatedUser.password = existingUser.password
+        updatedUser.password = existingUser.password;
 
     await userDao.updateUser(userId, updatedUser);
-    res.send(updatedUser)
-}
+    res.send(updatedUser);
+};
 
 const deleteUser = async (req, res) => {
     const userId = req.params.uid;
     const status = await userDao.deleteUser(userId);
     req.session.destroy();
     res.send(status);
-}
+};
 
 const logout = async (req, res) => {
     req.session.destroy();
     res.sendStatus(200);
-}
+};
 
 const login = async (req, res) => {
     const user = req.body.params.user;
-    const existingUser = await userDao.findUserByUsername(user)
+    const existingUser = await userDao.findUserByUsername(user);
 
     if (!existingUser || !await bcrypt.compare(user.password, existingUser.password)) {
-        return res.status(403).send("Invalid username and/or password")
+        return res.status(403).send("Invalid username and/or password");
     }
 
-    existingUser.password = "***"
+    existingUser.password = "***";
     req.session.user = existingUser;
-    console.log(req.session)
-    res.json(existingUser)
-}
+    res.json(existingUser);
+};
 
-const toggleBookmark = async (req, res) => {
-    try {
-      const updatedUser = await userDao.toggleUserBookmark(req.body.userId, req.body.igdbId);
-      res.json(updatedUser);
-    }
-    catch (e) {
-        console.log(e);
-      res.status(400).send(e);
-    }
-  };
-  
+
 
 export default (app) => {
     app.put('/update/:uid', updateUser);
@@ -79,6 +68,4 @@ export default (app) => {
     app.get('/logout', logout);
     app.put('/login', login);
     app.post('/signup', createUser);
-
-    app.patch('/api/bookmarks', toggleBookmark);
-}
+};

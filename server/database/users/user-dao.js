@@ -7,14 +7,13 @@ export const updateUser = (id, user) => userModel.updateOne({ _id: id }, { $set:
 export const deleteUser = (id) => userModel.deleteOne({ _id: id });
 
 export const toggleUserBookmark = async (userId, igdbId) => {
-  const dbUser = await userModel.findOne({ _id: userId });
-  console.log(dbUser);
-  if (!dbUser) {
-    throw `User with username ${user.username} does not exist`;
+  const user = await userModel.findOne({ _id: userId });
+  if (!user) {
+    throw `User with id ${userId} does not exist`;
   }
 
   let updatedUser;
-  const dbUserBookmarks = dbUser.bookmarks;
+  const dbUserBookmarks = user.bookmarks;
   if (dbUserBookmarks.includes(igdbId)) {
     // If there is already a bookmark, remove it from the user's bookmarks
     updatedUser = await userModel.updateOne({ _id: userId }, { $pull: { bookmarks: igdbId } });
@@ -25,3 +24,10 @@ export const toggleUserBookmark = async (userId, igdbId) => {
 
   return updatedUser;
 };
+
+export const getIsBookmarked = async (userId, igdbId) => ({
+  isBookmarked: !!(await userModel.exists({
+    _id: userId,
+    bookmarks: igdbId,
+  }))
+});
