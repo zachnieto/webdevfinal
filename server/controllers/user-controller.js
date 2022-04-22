@@ -61,10 +61,27 @@ const login = async (req, res) => {
     res.json(existingUser)
 }
 
+const getProfile = async (req, res) => {
+    const userId = req.params.uid;
+    const user = await userDao.findUserById(userId).lean()
+    delete user.password
+    res.json(user)
+}
+
+const comment = async (req, res) => {
+    const userId = req.params.uid;
+    const comment = req.body.params.comment;
+    await userDao.comment(userId, comment)
+    res.sendStatus(200)
+}
+
+
 export default (app) => {
     app.put('/update/:uid', updateUser);
     app.delete('/delete/:uid', deleteUser);
     app.get('/logout', logout);
     app.put('/login', login);
     app.post('/signup', createUser);
+    app.get('/profile/:uid', getProfile);
+    app.post('/comment/:uid', comment);
 }

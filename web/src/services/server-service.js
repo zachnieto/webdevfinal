@@ -48,3 +48,17 @@ export const getSession = async () => {
     const resp = await api.get(`${API_BASE}/api/session/get/`)
     return resp.data;
 }
+
+export const getProfile = async (userId) => {
+    const resp = await api.get(`${API_BASE}/profile/${userId}`)
+    return resp.data;
+}
+
+export const comment = async (userId, comment) => {
+    const resp = await api.post(`${API_BASE}/comment/${userId}`, {
+        params: {
+            comment: comment
+        }
+    })
+    return resp.data;
+}

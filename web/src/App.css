@@ -64,5 +64,22 @@
 .profile-details {
   background-color: rgba(67, 0, 146, 0.2);
   border-radius: 10px;
+}
 
+.comments {
+  background-color: rgba(67, 0, 146, 0.2);
+  margin: 3rem;
+  border-bottom: 2px solid #450064;
+  border-left: 2px solid #450064;
+  border-right: 2px solid #450064;
+}
+
+.comment-date {
+  color: #054848;
+  text-shadow: none;
+}
+
+.comment {
+  border-top: 2px solid #450064;
+  overflow-wrap: break-word;
 }

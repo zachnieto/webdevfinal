@@ -50,3 +50,11 @@ export const getSession = async (dispatch) => {
     })
 };
 
+export const getProfile = async (userId) => {
+    return await serverService.getProfile(userId)
+};
+
+export const submitComment = async (userId, comment) => {
+    await serverService.comment(userId, comment)
+}
+
