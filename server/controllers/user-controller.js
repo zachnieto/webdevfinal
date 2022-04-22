@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
     const newUser = req.body.params.user;
     newUser.password = await bcrypt.hash(newUser.password, saltRounds)
 
-    const existingUser = await userDao.findUserByUsername(newUser)
+    const existingUser = await userDao.findUserByUsername(newUser.username)
     if (existingUser)
         return res.status(403).send("An account already exists with this username")
 
@@ -49,7 +49,7 @@ const logout = async (req, res) => {
 
 const login = async (req, res) => {
     const user = req.body.params.user;
-    const existingUser = await userDao.findUserByUsername(user)
+    const existingUser = await userDao.findUserByUsername(user.username)
 
     if (!existingUser || !await bcrypt.compare(user.password, existingUser.password)) {
         return res.status(403).send("Invalid username and/or password")
@@ -62,8 +62,12 @@ const login = async (req, res) => {
 }
 
 const getProfile = async (req, res) => {
-    const userId = req.params.uid;
-    const user = await userDao.findUserById(userId).lean()
+    const username = req.params.username;
+    const user = await userDao.findUserByUsername(username).lean()
+    console.log(username)
+    if (!user)
+        return res.sendStatus(404)
+
     delete user.password
     res.json(user)
 }
@@ -82,6 +86,6 @@ export default (app) => {
     app.get('/logout', logout);
     app.put('/login', login);
     app.post('/signup', createUser);
-    app.get('/profile/:uid', getProfile);
+    app.get('/profile/:username', getProfile);
     app.post('/comment/:uid', comment);
 }

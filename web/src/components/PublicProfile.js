@@ -1,23 +1,25 @@
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import React, {useEffect, useRef, useState} from "react";
 import {getProfile, submitComment} from "../actions/server-actions";
 import {useSelector} from "react-redux";
 
 const PublicProfile = () => {
-    const { userId } = useParams();
+    const { username } = useParams();
     const [profile, setProfile] = useState({})
     const commentMsg = useRef()
     const session = useSelector(state => state.sessionReducer);
     const [comments, setComments] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchProfile = async () => {
-            const profileData = await getProfile(userId)
+            const profileData = await getProfile(username)
+                .catch(e => navigate("/"))
             setComments(profileData.comments.reverse())
             setProfile(profileData)
         }
         fetchProfile()
-    }, [userId])
+    }, [username])
 
     const handleComment = async () => {
         const comment = {
@@ -28,7 +30,7 @@ const PublicProfile = () => {
             "msg": commentMsg.current.value,
             "timestamp": Date.now()
         }
-        await submitComment(userId, comment)
+        await submitComment(profile._id, comment)
         setComments([comment, ...comments])
     }
 
@@ -46,17 +48,19 @@ const PublicProfile = () => {
                         <button className="btn btn-primary float-end" onClick={handleComment}>Comment</button>
                     </div>
                 }
-                <div className="comments">
-                    {comments && comments.map(comment =>
-                        <div key={comment.timestamp} className="text-start ps-4 comment">
-                            <h4 className="d-inline">{comment.postedBy.username}:</h4>
-                            <h5 className="d-inline comment-date ps-3">{new Date(comment.timestamp)
-                                .toLocaleDateString("en-US", {hour: "2-digit", minute: "2-digit"})}</h5>
-                            <p>{comment.msg}</p>
-                        </div>
-                    )}
-
-                </div>
+                {comments.length !== 0 &&
+                    <div className="comments">
+                        {comments && comments.map(comment =>
+                            <div key={comment.timestamp} className="text-start ps-4 comment">
+                                <a className="d-inline"
+                                   href={`/profile/${comment.postedBy.username}`}>{comment.postedBy.username}:</a>
+                                <h5 className="d-inline comment-date ps-3">{new Date(comment.timestamp)
+                                    .toLocaleDateString("en-US", {hour: "2-digit", minute: "2-digit"})}</h5>
+                                <p>{comment.msg}</p>
+                            </div>
+                        )}
+                    </div>
+                }
             </div>
         </div>
     );

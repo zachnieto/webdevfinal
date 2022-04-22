@@ -35,7 +35,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
 
-                    <Route path="/profile/:userId" element={<PublicProfile />} />
+                    <Route path="/profile/:username" element={<PublicProfile />} />
                     <Route
                         path="/profile"
                         element={

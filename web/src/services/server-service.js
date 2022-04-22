@@ -49,8 +49,8 @@ export const getSession = async () => {
     return resp.data;
 }
 
-export const getProfile = async (userId) => {
-    const resp = await api.get(`${API_BASE}/profile/${userId}`)
+export const getProfile = async (username) => {
+    const resp = await api.get(`${API_BASE}/profile/${username}`)
     return resp.data;
 }
 
