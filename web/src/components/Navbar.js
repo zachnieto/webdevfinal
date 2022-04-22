@@ -5,6 +5,8 @@ import {useNavigate, useLocation, Link} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../actions/server-actions";
 
+import './index.css'
+
 const Navbar = () => {
 
     const session = useSelector(state => state.sessionReducer)
@@ -23,20 +25,19 @@ const Navbar = () => {
 
     return (
         <ul className="nav nav-pills">
-            {console.log(session)}
             <li className="nav-item ms-auto p-4">
-                <a className="nav-link" href="/"> <AiOutlineHome style={{fontSize: "1.2em", marginBottom: "6px"}}/>Home</a>
+                <a className="nav-link" href="/"> <AiOutlineHome className="wd-react-icon-size"/>Home</a>
             </li>
             <li className="nav-item p-4">
-                <Link className="nav-link" to="/search"><FaList style={{fontSize: "1.2em", marginBottom: "6px"}}/>Search</Link>
+                <Link className="nav-link" to="/search"><FaList className="wd-react-icon-size"/>Search</Link>
             </li>
             {!("user" in session) ?
                 <li className="nav-item p-4 pe-5">
-                    <a className="nav-link wd-button" onClick={logIn}><FaUser style={{fontSize: "1.2em", marginBottom: "6px"}} /> Login</a>
+                    <a className="nav-link wd-button" onClick={logIn}><FaUser className="wd-react-icon-size" /> Login</a>
                 </li>
                 :
                 <li className="nav-item p-4 pe-5">
-                    <a className="nav-link wd-button" onClick={logOut}><FaUser style={{fontSize: "1.2em", marginBottom: "6px"}} />
+                    <a className="nav-link wd-button" onClick={logOut}><FaUser className="wd-react-icon-size" />
                         Logout
                     </a>
                 </li>

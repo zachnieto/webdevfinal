@@ -27,7 +27,6 @@ function App() {
 
     return (
         <div className="container-fluid min-vh-100">
-
             <Particles />
             <Router>
                 <Navbar />

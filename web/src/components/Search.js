@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { searchGames } from '../services/game-service';
 
@@ -46,7 +46,7 @@ const Search = () => {
       </li>
       {
         games.map(game =>
-          <li className="list-group-item">
+          <li className="list-group-item" key={game.id}>
             <Link to={`/search/details/${game.id}`}>
               {game.name}
             </Link>

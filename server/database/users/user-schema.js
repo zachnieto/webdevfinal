@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-const schema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     username: String,
     password: String,
     role: {type: String, defaultValue: "Member"},
     comments: {type: Array, defaultValue: []},
-}, {collection: 'users'})
+    bookmarks: [String],
+}, { collection: 'users' });
 
-export default schema;
+export default userSchema;
