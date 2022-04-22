@@ -9,6 +9,7 @@ const Login = () => {
     const [loggedInMsg, setLoggedInMsg] = useState("Need to create an account?");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("Member");
     const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +27,8 @@ const Login = () => {
     const loginSignup = async () => {
         const user = {
             'username': username,
-            'password': password
+            'password': password,
+            'role': role
         };
 
         if (hasAccount) {
@@ -51,20 +53,36 @@ const Login = () => {
     };
 
     return (
-        <div className="row justify-content-center">
-            <div className="col-3 text-center align-items-center">
+        <div className="row justify-content-center ">
+            <div className="col-3 text-center login-details">
                 <h1>Login</h1>
                 <input
-                    className="form-control m-3"
-                    placeholder="Username"
-                    onChange={e => setUsername(e.target.value)}
-                    onKeyDown={onKeyDownInput} />
+                    className="form-control mt-3"
+                    placeholder="Username" onChange={e => setUsername(e.target.value)}
+                    onKeyDown={onKeyDownInput}
+                />
                 <input
-                    className="form-control m-3"
-                    placeholder="Password"
-                    type="password"
+                    className="form-control mt-3 mb-3"
+                    placeholder="Password" type="password"
                     onChange={e => setPassword(e.target.value)}
-                    onKeyDown={onKeyDownInput} />
+                    onKeyDown={onKeyDownInput}
+                />
+
+                {!hasAccount &&
+                    <>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="memberButton"
+                                checked onClick={() => setRole("Member")} />
+                            <label className="form-check-label" htmlFor="memberButton"> Member </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="adminButton"
+                                onClick={() => setRole("Admin")} />
+                            <label className="form-check-label" htmlFor="adminButton"> Admin </label>
+                        </div>
+                    </>
+                }
+                <br />
                 <button className="btn btn-primary m-3" onClick={loginSignup}>{hasAccount ? "Login" : "Signup"}</button>
                 <h5>{error}</h5>
                 <h4 className="hover-hand" onClick={toggleLogin}>{loggedInMsg}</h4>

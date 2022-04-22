@@ -10,9 +10,9 @@ const SecureRoute = ({ children }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const check = async () => {
-      await getSession(dispatch);
+      const session = await getSession(dispatch);
       // If there is a user in the session, then they're logged in
-      setLoggedIn(!!sessionReducer.user);
+      setLoggedIn(!!session.user);
       setWaiting(false);
     };
     check();

@@ -8,7 +8,7 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import './index.css';
 import { toggleBookmark } from '../services/server-service';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGameDetails, likeGame, dislikeGame, updateGameLikeDislike } from '../actions/game-actions';
+import { getGameDetails, updateGameLikeDislike } from '../actions/game-actions';
 
 const SearchDetails = () => {
 

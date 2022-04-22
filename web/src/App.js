@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import SearchDetails from './components/SearchDetails';
 import SecureRoute from './components/SecureRoute';
+import PublicProfile from "./components/PublicProfile";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
 
+                    <Route path="/profile/:username" element={<PublicProfile />} />
                     <Route
                         path="/profile"
                         element={

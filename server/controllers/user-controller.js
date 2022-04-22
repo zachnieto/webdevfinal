@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
     const newUser = req.body.params.user;
     newUser.password = await bcrypt.hash(newUser.password, saltRounds);
 
-    const existingUser = await userDao.findUserByUsername(newUser);
+    const existingUser = await userDao.findUserByUsername(newUser.username);
     if (existingUser)
         return res.status(403).send("An account already exists with this username");
 
@@ -20,18 +20,22 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const userId = req.params.uid;
-    const existingUser = await userDao.findUserById(userId);
-    const updatedUser = req.body.params.user;
+    let existingUser = await userDao.findUserById(userId).lean();
+    let updatedUser = req.body.params.user;
 
     if (existingUser.username !== updatedUser.username && await userDao.findUserByUsername(updatedUser.username))
         return res.status(403).send("An account already exists with this username");
 
-    if (updatedUser.password !== "***")
+    if (updatedUser.password !== "***" && updatedUser.password !== "")
         updatedUser.password = await bcrypt.hash(updatedUser.password, saltRounds);
     else
         updatedUser.password = existingUser.password;
 
+    updatedUser.comments = existingUser.comments;
+
     await userDao.updateUser(userId, updatedUser);
+    updatedUser.password = "***";
+    req.session.user = updatedUser;
     res.send(updatedUser);
 };
 
@@ -49,7 +53,10 @@ const logout = async (req, res) => {
 
 const login = async (req, res) => {
     const user = req.body.params.user;
-    const existingUser = await userDao.findUserByUsername(user);
+    console.log(user)
+    console.log(user.username)
+    const existingUser = await userDao.findUserByUsername(user.username);
+    console.log(existingUser)
 
     if (!existingUser || !await bcrypt.compare(user.password, existingUser.password)) {
         return res.status(403).send("Invalid username and/or password");
@@ -62,10 +69,39 @@ const login = async (req, res) => {
 
 
 
+const getProfile = async (req, res) => {
+    const username = req.params.username;
+    const user = await userDao.findUserByUsername(username).lean();
+
+    if (!user)
+        return res.sendStatus(404);
+
+    delete user.password;
+    res.json(user);
+};
+
+const comment = async (req, res) => {
+    const userId = req.params.uid;
+    const comment = req.body.params.comment;
+    await userDao.comment(userId, comment);
+    res.sendStatus(200);
+};
+
+const deleteComment = async (req, res) => {
+    const userId = req.params.uid;
+    const comment = req.body.params.comment;
+    await userDao.deleteComment(userId, comment);
+    res.sendStatus(200);
+};
+
+
 export default (app) => {
     app.put('/update/:uid', updateUser);
     app.delete('/delete/:uid', deleteUser);
     app.get('/logout', logout);
     app.put('/login', login);
     app.post('/signup', createUser);
+    app.get('/profile/:username', getProfile);
+    app.post('/comment/:uid', comment);
+    app.post('/deletecomment/:uid', deleteComment);
 };

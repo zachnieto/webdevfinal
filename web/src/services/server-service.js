@@ -27,7 +27,7 @@ export const login = async (user) => {
             user: user
         }
     });
-    console.log(resp)
+    console.log(resp);
     console.log(resp.session);
     return resp.data;
 };
@@ -35,7 +35,7 @@ export const login = async (user) => {
 export const logout = async () => {
     const resp = await api.get(`${API_BASE}/logout`);
     return resp.data;
-}
+};
 
 export const signup = async (user) => {
     const resp = await api.post(`${API_BASE}/signup`, {
@@ -48,6 +48,30 @@ export const signup = async (user) => {
 
 export const getSession = async () => {
     const resp = await api.get(`${API_BASE}/api/session/get/`);
+    return resp.data;
+};
+
+export const getProfile = async (username) => {
+    const resp = await api.get(`${API_BASE}/profile/${username}`);
+    return resp.data;
+};
+
+export const comment = async (userId, comment) => {
+    const resp = await api.post(`${API_BASE}/comment/${userId}`, {
+        params: {
+            comment: comment
+        }
+    });
+    return resp.data;
+};
+
+export const deleteComment = async (userId, comment) => {
+    const resp = await api.post(`${API_BASE}/deletecomment/${userId}`, {
+        params: {
+            comment: comment
+        }
+    });
+    console.log(resp.data);
     return resp.data;
 };
 

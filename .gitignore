@@ -1,7 +1,9 @@
 .env.*
-node_modules/
+web/node_modules/
 package-lock.json
 # Local Netlify folder
 .netlify
 build
-.idea
+*.idea
+
+.gitignore
