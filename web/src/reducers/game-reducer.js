@@ -5,8 +5,8 @@ const gameReducer = (state = {}, action) => {
     case GET_GAME_DETAILS:
       return action.game;
     case UPDATE_GAME_LIKE_DISLIKE:
-      const isLiked = !!action.newLikeDislike;
-      const isDisliked = !action.newLikeDislike;
+      const isLiked = !!action.isLiked;
+      const isDisliked = action.isLiked === false;
       return {
         ...state,
         isLiked,

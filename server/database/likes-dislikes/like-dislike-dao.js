@@ -16,7 +16,7 @@ export const getIsLikedDisliked = async (userId, igdbId) => {
   console.log(likeDislike)
   return {
     isLiked: !!likeDislike?.isLiked,
-    isDisliked: !likeDislike?.isLiked,
+    isDisliked: likeDislike?.isLiked === false,
   };
 };
 

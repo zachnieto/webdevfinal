@@ -16,7 +16,7 @@ export const updateGameLikeDislike = async (dispatch, gameId, userId, isLiked) =
   const newLikeDislike = await gameService.updateGameLikeDislike(gameId, userId, isLiked);
   dispatch({
     type: UPDATE_GAME_LIKE_DISLIKE,
-    newLikeDislike,
+    isLiked: newLikeDislike.isLiked,
   });
 };
 
