@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 const Home = () => {
 
@@ -16,6 +16,6 @@ const Home = () => {
             </div>
         </div>
     );
-}
+};
 
-export default Home
+export default Home;

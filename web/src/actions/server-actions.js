@@ -22,8 +22,8 @@ export const deleteUser = async (dispatch, uid) => {
 export const login = async (dispatch, authUser) => {
     const user = await serverService.login(authUser)
     dispatch({
-        type: USER,
-        user
+        type: 'USER',
+        user,
     })
 };
 

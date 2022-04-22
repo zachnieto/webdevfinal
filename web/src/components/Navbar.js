@@ -25,7 +25,6 @@ const Navbar = () => {
 
     return (
         <ul className="nav nav-pills">
-            {console.log(session)}
             <li className="nav-item ms-auto p-4">
                 <a className="nav-link" href="/"> <AiOutlineHome className="wd-react-icon-size"/>Home</a>
             </li>

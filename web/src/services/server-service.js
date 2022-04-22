@@ -12,26 +12,28 @@ export const updateUser = async (uid, user) => {
         params: {
             user: user
         }
-    })
+    });
     return resp.data;
-}
+};
 
 export const deleteUser = async (uid) => {
-    const resp = await api.delete(`${API_BASE}/delete/${uid}`)
+    const resp = await api.delete(`${API_BASE}/delete/${uid}`);
     return resp.data;
-}
+};
 
 export const login = async (user) => {
     const resp = await api.put(`${API_BASE}/login`, {
         params: {
             user: user
         }
-    })
+    });
+    console.log(resp)
+    console.log(resp.session);
     return resp.data;
-}
+};
 
 export const logout = async () => {
-    const resp = await api.get(`${API_BASE}/logout`)
+    const resp = await api.get(`${API_BASE}/logout`);
     return resp.data;
 }
 
@@ -40,11 +42,16 @@ export const signup = async (user) => {
         params: {
             user: user
         }
-    })
+    });
     return resp.data;
-}
+};
 
 export const getSession = async () => {
-    const resp = await api.get(`${API_BASE}/api/session/get/`)
+    const resp = await api.get(`${API_BASE}/api/session/get/`);
     return resp.data;
-}
+};
+
+export const toggleBookmark = async (userId, igdbId) => {
+    const resp = await api.patch(`${API_BASE}/api/bookmarks`, { userId, igdbId });
+    return resp.data;
+};
