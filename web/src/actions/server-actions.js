@@ -58,3 +58,7 @@ export const submitComment = async (userId, comment) => {
     await serverService.comment(userId, comment)
 }
 
+export const deleteComment = async (userId, comment) => {
+    return await serverService.deleteComment(userId, comment)
+}
+

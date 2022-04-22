@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router";
 import React, {useEffect, useRef, useState} from "react";
-import {getProfile, submitComment} from "../actions/server-actions";
+import {deleteComment, getProfile, submitComment} from "../actions/server-actions";
 import {useSelector} from "react-redux";
 
 const PublicProfile = () => {
@@ -20,6 +20,13 @@ const PublicProfile = () => {
         }
         fetchProfile()
     }, [username])
+
+    const handleDelete = async (comment) => {
+        console.log(comment)
+
+        await deleteComment(profile._id, comment)
+        setComments(comments.filter(c => c !== comment))
+    }
 
     const handleComment = async () => {
         const comment = {
@@ -56,6 +63,8 @@ const PublicProfile = () => {
                                    href={`/profile/${comment.postedBy.username}`}>{comment.postedBy.username}:</a>
                                 <h5 className="d-inline comment-date ps-3">{new Date(comment.timestamp)
                                     .toLocaleDateString("en-US", {hour: "2-digit", minute: "2-digit"})}</h5>
+                                {session.user && session.user.role === "Admin" && <button className="btn btn-danger float-end"
+                                                                                          onClick={() => handleDelete(comment)}>Delete</button>}
                                 <p>{comment.msg}</p>
                             </div>
                         )}

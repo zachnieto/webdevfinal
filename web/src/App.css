@@ -66,6 +66,12 @@
   border-radius: 10px;
 }
 
+.login-details {
+  background-color: rgba(67, 0, 146, 0.2);
+  border-radius: 10px;
+  padding: 3rem;
+}
+
 .comments {
   background-color: rgba(67, 0, 146, 0.2);
   margin: 3rem;

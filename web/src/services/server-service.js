@@ -62,3 +62,13 @@ export const comment = async (userId, comment) => {
     })
     return resp.data;
 }
+
+export const deleteComment = async (userId, comment) => {
+    const resp = await api.post(`${API_BASE}/deletecomment/${userId}`, {
+        params: {
+            comment: comment
+        }
+    })
+    console.log(resp.data)
+    return resp.data;
+}

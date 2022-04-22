@@ -7,3 +7,4 @@ export const updateUser = (id, user) => userModel.updateOne({_id: id}, {$set: us
 export const deleteUser = (id) => userModel.deleteOne({_id: id});
 
 export const comment = (id, comment) => userModel.updateOne({_id: id}, {$push: {comments: comment}});
+export const deleteComment = (id, comment) => userModel.updateOne({_id: id}, {$pull: {comments: comment}});

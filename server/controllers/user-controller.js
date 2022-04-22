@@ -20,18 +20,22 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const userId = req.params.uid
-    const existingUser = await userDao.findUserById(userId)
-    const updatedUser = req.body.params.user;
+    let existingUser = await userDao.findUserById(userId).lean()
+    let updatedUser = req.body.params.user;
 
     if (existingUser.username !== updatedUser.username && await userDao.findUserByUsername(updatedUser.username))
         return res.status(403).send("An account already exists with this username")
 
-    if (updatedUser.password !== "***")
+    if (updatedUser.password !== "***" && updatedUser.password !== "")
         updatedUser.password = await bcrypt.hash(updatedUser.password, saltRounds)
     else
         updatedUser.password = existingUser.password
 
+    updatedUser.comments = existingUser.comments
+
     await userDao.updateUser(userId, updatedUser);
+    updatedUser.password = "***"
+    req.session.user = updatedUser;
     res.send(updatedUser)
 }
 
@@ -64,7 +68,7 @@ const login = async (req, res) => {
 const getProfile = async (req, res) => {
     const username = req.params.username;
     const user = await userDao.findUserByUsername(username).lean()
-    console.log(username)
+
     if (!user)
         return res.sendStatus(404)
 
@@ -79,6 +83,13 @@ const comment = async (req, res) => {
     res.sendStatus(200)
 }
 
+const deleteComment = async (req, res) => {
+    const userId = req.params.uid;
+    const comment = req.body.params.comment;
+    await userDao.deleteComment(userId, comment)
+    res.sendStatus(200)
+}
+
 
 export default (app) => {
     app.put('/update/:uid', updateUser);
@@ -88,4 +99,5 @@ export default (app) => {
     app.post('/signup', createUser);
     app.get('/profile/:username', getProfile);
     app.post('/comment/:uid', comment);
+    app.post('/deletecomment/:uid', deleteComment);
 }
