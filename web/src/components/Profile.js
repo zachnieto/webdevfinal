@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router";
-import {deleteUser, updateUser} from "../actions/server-actions";
+import {deleteAccount, deleteAccountAndLogout, deleteUser, updateUser} from "../actions/server-actions";
 
 const Profile = () => {
 
@@ -31,9 +31,9 @@ const Profile = () => {
             .catch(e => console.log(e))
     }
 
-    const deleteAccount = async () => {
+    const deleteProfile = async () => {
         navigate("/")
-        await deleteUser(dispatch, session.user._id)
+        await deleteAccountAndLogout(dispatch, session.user._id)
             .catch(e => console.log(e))
     }
 
@@ -58,7 +58,7 @@ const Profile = () => {
                             <label className="form-check-label" htmlFor="adminButton"> Admin </label>
                         </div>
                         <button className="btn btn-primary mt-5" onClick={editProfile}>Apply Changes</button>
-                        <button className="btn btn-danger mt-5 ms-5" onClick={deleteAccount}>Delete Account</button>
+                        <button className="btn btn-danger mt-5 ms-5" onClick={deleteProfile}>Delete Account</button>
                     </div>
                 </div>
             }

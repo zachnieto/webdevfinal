@@ -12,11 +12,15 @@ export const updateUser = async (dispatch, uid, updatedUser) => {
     })
 };
 
-export const deleteUser = async (dispatch, uid) => {
+export const deleteAccountAndLogout = async (dispatch, uid) => {
     await serverService.deleteUser(uid)
     dispatch({
         type: LOGOUT
     })
+};
+
+export const deleteAccount = async (uid) => {
+    await serverService.deleteUser(uid)
 };
 
 export const login = async (dispatch, authUser) => {
@@ -60,5 +64,9 @@ export const submitComment = async (userId, comment) => {
 
 export const deleteComment = async (userId, comment) => {
     return await serverService.deleteComment(userId, comment)
+}
+
+export const getUsers = async () => {
+    return await serverService.getUsers()
 }
 

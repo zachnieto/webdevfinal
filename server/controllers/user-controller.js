@@ -91,6 +91,11 @@ const deleteComment = async (req, res) => {
     res.sendStatus(200)
 }
 
+const users = async (req, res) => {
+    const users = await userDao.users()
+    res.json(users)
+}
+
 
 export default (app) => {
     app.put('/update/:uid', updateUser);
@@ -101,4 +106,5 @@ export default (app) => {
     app.get('/profile/:username', getProfile);
     app.post('/comment/:uid', comment);
     app.post('/deletecomment/:uid', deleteComment);
+    app.get('/users', users);
 };

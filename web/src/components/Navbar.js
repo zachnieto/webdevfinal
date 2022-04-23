@@ -36,11 +36,16 @@ const Navbar = () => {
                     <a className="nav-link wd-button" onClick={logIn}><FaUser className="wd-react-icon-size" /> Login</a>
                 </li>
                 :
+                <>
+                <li className="nav-item p-4">
+                    <Link className="nav-link" to="/profile"><FaUser className="wd-react-icon-size"/>Profile</Link>
+                </li>
                 <li className="nav-item p-4 pe-5">
                     <a className="nav-link wd-button" onClick={logOut}><FaUser className="wd-react-icon-size" />
                         Logout
                     </a>
                 </li>
+                </>
             }
         </ul>
     );

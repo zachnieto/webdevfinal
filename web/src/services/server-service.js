@@ -79,3 +79,8 @@ export const toggleBookmark = async (userId, igdbId) => {
     const resp = await api.patch(`${API_BASE}/api/bookmarks`, { userId, igdbId });
     return resp.data;
 };
+
+export const getUsers = async () => {
+    const resp = await api.get(`${API_BASE}/users`);
+    return resp.data;
+};

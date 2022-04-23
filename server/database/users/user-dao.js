@@ -5,6 +5,7 @@ export const findUserByUsername = (username) => userModel.findOne({"username": u
 export const findUserById = (id) => userModel.findOne({ _id: id });
 export const updateUser = (id, user) => userModel.updateOne({ _id: id }, { $set: user });
 export const deleteUser = (id) => userModel.deleteOne({ _id: id });
+export const users = () => userModel.find({}, {password: 0});
 
 export const comment = (id, comment) => userModel.updateOne({_id: id}, {$push: {comments: comment}});
 export const deleteComment = (id, comment) => userModel.updateOne({_id: id}, {$pull: {comments: comment}});
