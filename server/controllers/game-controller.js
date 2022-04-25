@@ -13,15 +13,21 @@ export const getGameDetails = async (req, res) => {
   const { igdbId, userId } = req.params;
   try {
     const promises = [];
-    promises.push(getIgdbGames(igdbId));
+    const gameData = await getIgdbGames(igdbId)
     promises.push(likeDislikeDao.getLikeDislikeCountByGame(igdbId));
+
     if (userId) {
       promises.push(userDao.getIsBookmarked(userId, igdbId));
       promises.push(likeDislikeDao.getIsLikedDisliked(userId, igdbId));
+
+      promises.push(userDao.addVisitedLink(userId, igdbId, gameData.name));
     }
 
     const data = await Promise.all(promises);
-    res.json(data.reduce((result, datum) => ({ ...result, ...datum }), {}));
+    data.push(gameData)
+    const reduced = data.reduce((result, datum) => ({ ...result, ...datum }), {})
+
+    res.json(reduced);
   } catch (e) {
     res.status(400).send(e);
   }

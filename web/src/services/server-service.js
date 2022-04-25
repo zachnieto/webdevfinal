@@ -84,3 +84,13 @@ export const getUsers = async () => {
     const resp = await api.get(`${API_BASE}/users`);
     return resp.data;
 };
+
+export const getVisitedLinks = async () => {
+    const resp = await api.get(`${API_BASE}/links`);
+    return resp.data;
+};
+
+export const getNewestUser = async () => {
+    const resp = await api.get(`${API_BASE}/newestuser`);
+    return resp.data;
+};

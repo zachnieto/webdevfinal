@@ -1,21 +1,38 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteAccount, getUsers, logout} from "../actions/server-actions";
+import {deleteAccount, getNewestUser, getUsers, getVisitedLinks, logout} from "../actions/server-actions";
 
 const Home = () => {
 
     const session = useSelector(state => state.sessionReducer);
     const [users, setUsers] = useState([]);
     const dispatch = useDispatch();
+    const [visitedLinks, setVisitedLinks] = useState([])
+    const [newestUser, setNewestUser] = useState("")
 
     useEffect(() => {
-        if (session.user && session.user.role === "Admin" ) {
-            const fetchUsers = async () => {
-                const retrievedUsers = await getUsers()
-                setUsers(retrievedUsers)
+        if (session.user) {
+            if (session.user.role === "Admin" ) {
+                const fetchUsers = async () => {
+                    const retrievedUsers = await getUsers()
+                    setUsers(retrievedUsers)
+                }
+                fetchUsers()
             }
-            fetchUsers()
+
+            const fetchLinks = async () => {
+                const retrievedLinks = await getVisitedLinks()
+                setVisitedLinks(retrievedLinks.reverse())
+            }
+            fetchLinks()
         }
+
+        const fetchNewestUser = async () => {
+            const retrievedUser = await getNewestUser()
+            setNewestUser(retrievedUser)
+        }
+        fetchNewestUser()
+
     }, [session.user]);
 
     const deleteUser = async (user) => {
@@ -31,7 +48,10 @@ const Home = () => {
     return (
         <div>
             <div className="row align-items-center justify-content-center ">
-                <div className="col-3">
+                <div className="col-3 text-center">
+                    <h2>Newest User</h2>
+                    <h3 className="pb-5">{newestUser}</h3>
+
                     {session.user && session.user.role === "Admin" &&
                         <>
                             <h2 className="text-center">Users</h2>
@@ -48,6 +68,12 @@ const Home = () => {
                     <h1 className="text-center home-header main"><strong>WebDev</strong></h1>
                 </div>
                 <div className="col-3">
+                    {session.user &&
+                    <>
+                        <h2>Recently Viewed</h2>
+                        {visitedLinks.map((link, i) => <a key={i} className="d-block" href={`/search/details/${link.id}`}>{link.name}</a>)}
+                    </>
+                    }
                 </div>
             </div>
         </div>

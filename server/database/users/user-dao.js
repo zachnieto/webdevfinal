@@ -35,3 +35,19 @@ export const getIsBookmarked = async (userId, igdbId) => ({
     bookmarks: igdbId,
   }))
 });
+
+export const addVisitedLink = async (userId, igdbId, gameName) => {
+  const user = await userModel.findOne({ _id: userId });
+  if (!user)
+    throw `User with id ${userId} does not exist`;
+
+  const visitedLinks = user.visitedLinks.filter(link => link.id.toString() !== igdbId).slice(-9);
+  visitedLinks.push({id: igdbId, name: gameName})
+  await userModel.updateOne({ _id: userId }, { $set: { visitedLinks: visitedLinks } });
+
+  return visitedLinks
+};
+
+export const getLinks = (userId) => userModel.findOne({_id: userId}, {visitedLinks: 1});
+
+export const getNewestUser = () => userModel.find().sort({ $natural: -1 }).limit(1)

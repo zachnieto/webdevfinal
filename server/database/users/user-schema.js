@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
     role: {type: String, defaultValue: "Member"},
     comments: {type: Array, defaultValue: []},
     bookmarks: [String],
+    visitedLinks: {type: Array, defaultValue: []}
 }, { collection: 'users' });
 
 export default userSchema;

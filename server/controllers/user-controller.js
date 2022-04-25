@@ -96,6 +96,16 @@ const users = async (req, res) => {
     res.json(users)
 }
 
+const getLinks = async (req, res) => {
+    const userData = await userDao.getLinks(req.session.user._id)
+    res.json(userData.visitedLinks)
+}
+
+const getNewestUser = async (req, res) => {
+    const userDatas = await userDao.getNewestUser()
+    res.json(userDatas[0].username)
+}
+
 
 export default (app) => {
     app.put('/update/:uid', updateUser);
@@ -107,4 +117,6 @@ export default (app) => {
     app.post('/comment/:uid', comment);
     app.post('/deletecomment/:uid', deleteComment);
     app.get('/users', users);
+    app.get('/links', getLinks);
+    app.get('/newestuser', getNewestUser);
 };

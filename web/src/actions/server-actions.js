@@ -70,3 +70,11 @@ export const getUsers = async () => {
     return await serverService.getUsers()
 }
 
+export const getVisitedLinks = async () => {
+    return await serverService.getVisitedLinks()
+}
+
+export const getNewestUser = async () => {
+    return await serverService.getNewestUser()
+}
+
