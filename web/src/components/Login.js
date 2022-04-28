@@ -36,13 +36,13 @@ const Login = () => {
                 .then(() => {
                     navigate("/profile");
                 })
-                .catch(e => console.log(e));
+                .catch(e => setError(e.response.data));
         } else {
             await signup(dispatch, user)
                 .then(() => {
                     navigate("/profile");
                 })
-                .catch(e => console.log(e));
+                .catch(e => setError(e.response.data));
         }
     };
 
@@ -84,7 +84,7 @@ const Login = () => {
                 }
                 <br />
                 <button className="btn btn-primary m-3" onClick={loginSignup}>{hasAccount ? "Login" : "Signup"}</button>
-                <h5>{error}</h5>
+                <h5 className="text-danger">{error}</h5>
                 <h4 className="hover-hand" onClick={toggleLogin}>{loggedInMsg}</h4>
 
 

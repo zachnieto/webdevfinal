@@ -14,8 +14,8 @@ const Navbar = () => {
     const dispatch = useDispatch()
 
     const logOut = async () => {
-        navigate('/')
         await logout(dispatch)
+        navigate('/')
     }
 
     const logIn = () => {
@@ -42,6 +42,7 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item p-4 pe-5">
                     <a className="nav-link wd-button" onClick={logOut}><FaUser className="wd-react-icon-size" />
+                        ({session.user.username})
                         Logout
                     </a>
                 </li>

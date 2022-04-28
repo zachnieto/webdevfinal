@@ -57,6 +57,7 @@ const Profile = () => {
                                    checked={role==="Admin"} onChange={() => setRole("Admin")}/>
                             <label className="form-check-label" htmlFor="adminButton"> Admin </label>
                         </div>
+                        <br/>
                         <button className="btn btn-primary mt-5" onClick={editProfile}>Apply Changes</button>
                         <button className="btn btn-danger mt-5 ms-5" onClick={deleteProfile}>Delete Account</button>
                     </div>
