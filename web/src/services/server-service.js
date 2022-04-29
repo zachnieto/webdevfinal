@@ -56,6 +56,11 @@ export const getProfile = async (username) => {
     return resp.data;
 };
 
+export const getPrivateProfile = async (username) => {
+    const resp = await api.get(`${API_BASE}/profile/private/${username}`);
+    return resp.data;
+}
+
 export const comment = async (userId, comment) => {
     const resp = await api.post(`${API_BASE}/comment/${userId}`, {
         params: {
@@ -72,11 +77,6 @@ export const deleteComment = async (userId, comment) => {
         }
     });
     console.log(resp.data);
-    return resp.data;
-};
-
-export const toggleBookmark = async (userId, igdbId) => {
-    const resp = await api.patch(`${API_BASE}/api/bookmarks`, { userId, igdbId });
     return resp.data;
 };
 

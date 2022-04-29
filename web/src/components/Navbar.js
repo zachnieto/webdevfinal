@@ -22,11 +22,12 @@ const Navbar = () => {
         navigate('/login')
     }
 
+    console.log(session)
 
     return (
         <ul className="nav nav-pills">
             <li className="nav-item ms-auto p-4">
-                <a className="nav-link" href="/"> <AiOutlineHome className="wd-react-icon-size"/>Home</a>
+                <Link className="nav-link" to="/"> <AiOutlineHome className="wd-react-icon-size"/>Home</Link>
             </li>
             <li className="nav-item p-4">
                 <Link className="nav-link" to="/search"><FaList className="wd-react-icon-size"/>Search</Link>

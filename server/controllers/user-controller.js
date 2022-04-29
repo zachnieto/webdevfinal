@@ -1,4 +1,5 @@
 import * as userDao from "../database/users/user-dao.js";
+import * as likesDislikesDao from '../database/likes-dislikes/like-dislike-dao.js';
 import bcrypt from "bcrypt";
 
 const saltRounds = 10;
@@ -33,7 +34,7 @@ const updateUser = async (req, res) => {
 
     updatedUser.comments = existingUser.comments;
 
-    updatedUser.comments = existingUser.comments
+    updatedUser.comments = existingUser.comments;
 
     await userDao.updateUser(userId, updatedUser);
     updatedUser.password = "***";
@@ -68,43 +69,54 @@ const login = async (req, res) => {
 
 const getProfile = async (req, res) => {
     const username = req.params.username;
-    const user = await userDao.findUserByUsername(username).lean()
+    const user = await userDao.findUserByUsername(username).lean();
 
     if (!user)
-        return res.sendStatus(404)
+        return res.sendStatus(404);
 
-    delete user.password
-    res.json(user)
-}
+    delete user.password;
+    res.json(user);
+};
+
+const getPrivateProfile = async (req, res) => {
+    const username = req.params.username;
+    const user = await userDao.findUserByUsername(username).lean();
+    if (!user) {
+        return res.sendStatus(404)
+    }
+
+    const likesDislikes = await likesDislikesDao.getLikesDislikesByUser(user._id);
+    res.json({ ...likesDislikes, bookmarked: user.bookmarks });
+};
 
 const comment = async (req, res) => {
     const userId = req.params.uid;
     const comment = req.body.params.comment;
-    await userDao.comment(userId, comment)
-    res.sendStatus(200)
-}
+    await userDao.comment(userId, comment);
+    res.sendStatus(200);
+};
 
 const deleteComment = async (req, res) => {
     const userId = req.params.uid;
     const comment = req.body.params.comment;
-    await userDao.deleteComment(userId, comment)
-    res.sendStatus(200)
-}
+    await userDao.deleteComment(userId, comment);
+    res.sendStatus(200);
+};
 
 const users = async (req, res) => {
-    const users = await userDao.users()
-    res.json(users)
-}
+    const users = await userDao.users();
+    res.json(users);
+};
 
 const getLinks = async (req, res) => {
-    const userData = await userDao.getLinks(req.session.user._id)
-    res.json(userData.visitedLinks)
-}
+    const userData = await userDao.getLinks(req.session.user._id);
+    res.json(userData.visitedLinks);
+};
 
 const getNewestUser = async (req, res) => {
-    const userDatas = await userDao.getNewestUser()
-    res.json(userDatas[0].username)
-}
+    const userDatas = await userDao.getNewestUser();
+    res.json(userDatas[0].username);
+};
 
 
 export default (app) => {
@@ -114,6 +126,7 @@ export default (app) => {
     app.put('/login', login);
     app.post('/signup', createUser);
     app.get('/profile/:username', getProfile);
+    app.get('/profile/private/:username', getPrivateProfile);
     app.post('/comment/:uid', comment);
     app.post('/deletecomment/:uid', deleteComment);
     app.get('/users', users);

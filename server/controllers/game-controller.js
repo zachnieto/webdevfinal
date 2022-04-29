@@ -19,14 +19,12 @@ export const getGameDetails = async (req, res) => {
     if (userId) {
       promises.push(userDao.getIsBookmarked(userId, igdbId));
       promises.push(likeDislikeDao.getIsLikedDisliked(userId, igdbId));
-
-      promises.push(userDao.addVisitedLink(userId, igdbId, gameData.name));
+      userDao.addVisitedLink(userId, igdbId, gameData.name);
     }
 
     const data = await Promise.all(promises);
     data.push(gameData)
     const reduced = data.reduce((result, datum) => ({ ...result, ...datum }), {})
-
     res.json(reduced);
   } catch (e) {
     res.status(400).send(e);
@@ -35,7 +33,7 @@ export const getGameDetails = async (req, res) => {
 
 const toggleBookmark = async (req, res) => {
   try {
-    const updatedUser = await userDao.toggleUserBookmark(req.body.userId, req.body.igdbId);
+    const updatedUser = await userDao.toggleUserBookmark(req.body.userId, req.body.igdbId, req.body.gameName);
     res.json(updatedUser);
   } catch (e) {
     res.status(400).send(e);
@@ -47,6 +45,7 @@ export const updateLikeDislike = async (req, res) => {
     const updatedLikeDislike = await likeDislikeDao.toggleLikeDislike(
       req.body.userId,
       req.params.igdbId,
+      req.body.gameName,
       req.body.isLiked,
     );
     res.json(updatedLikeDislike);
@@ -54,19 +53,6 @@ export const updateLikeDislike = async (req, res) => {
     res.status(400).send(e);
   }
 };
-
-// export const toggleDisLike = async (req, res) => {
-//   try {
-//     const dislike = await likeDislikeDao.toggleLikeDislike(
-//       req.body.userId,
-//       req.params.igdbId,
-//       false,
-//     );
-//     res.json(dislike);
-//   } catch (e) {
-//     res.status(400).send(e);
-//   }
-// };
 
 export default (app) => {
   app.get('/api/games/', searchGames);

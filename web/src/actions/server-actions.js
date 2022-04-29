@@ -58,6 +58,10 @@ export const getProfile = async (username) => {
     return await serverService.getProfile(username)
 };
 
+export const getPrivateProfile = async (username) => {
+    return await serverService.getPrivateProfile(username);
+}
+
 export const submitComment = async (userId, comment) => {
     await serverService.comment(userId, comment)
 }

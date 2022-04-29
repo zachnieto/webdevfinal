@@ -12,18 +12,14 @@ export const getGameDetails = async (dispatch, gameId, userId) => {
   });
 };
 
-export const updateGameLikeDislike = async (dispatch, gameId, userId, isLiked) => {
-  const newLikeDislike = await gameService.updateGameLikeDislike(gameId, userId, isLiked);
+export const toggleBookmark = async (userId, gameId, gameName) => {
+  await gameService.toggleBookmark(userId, gameId, gameName)
+}
+
+export const updateGameLikeDislike = async (dispatch, gameId, gameName, userId, isLiked) => {
+  const newLikeDislike = await gameService.updateGameLikeDislike(gameId, gameName, userId, isLiked);
   dispatch({
     type: UPDATE_GAME_LIKE_DISLIKE,
     isLiked: newLikeDislike.isLiked,
   });
 };
-
-// export const dislikeGame = async (dispatch, gameId, userId) => {
-//   const disliked = await gameService.updateGameDislike(gameId, userId);
-//   dispatch({
-//     type: DISLIKE_GAME,
-//     dislike: disliked,
-//   });
-// };

@@ -12,8 +12,7 @@ export const getLikeDislikeCountByGame = async (igdbId) => {
 };
 
 export const getIsLikedDisliked = async (userId, igdbId) => {
-  const likeDislike = await likeDislikeModel.findOne({ user:{_id: userId}, igdbId });
-  console.log(likeDislike)
+  const likeDislike = await likeDislikeModel.findOne({ user: { _id: userId }, igdbId });
   return {
     isLiked: !!likeDislike?.isLiked,
     isDisliked: likeDislike?.isLiked === false,
@@ -30,7 +29,7 @@ export const getIsLikedDisliked = async (userId, igdbId) => {
  * @param igdbId the game being liked/disliked
  * @param isLiked true if the game is being liked, false if disliked, and undefined if neither
  */
-export const toggleLikeDislike = async (userId, igdbId, isLiked) => {
+export const toggleLikeDislike = async (userId, igdbId, gameName, isLiked) => {
   const user = await userModel.findOne({ _id: userId });
   if (!user) {
     throw `User with id ${userId} does not exist`;
@@ -47,9 +46,19 @@ export const toggleLikeDislike = async (userId, igdbId, isLiked) => {
     dbLikeDislike = await likeDislikeModel.create({
       userId,
       igdbId,
+      gameName,
       isLiked,
     });
   }
 
   return dbLikeDislike;
+};
+
+export const getLikesDislikesByUser = async (userId) => {
+  const userLiked = likeDislikeModel.find({ userId, isLiked: true }, { _id: false, igdbId: true, gameName: true });
+  const userDisliked = likeDislikeModel.find({ userId, isLiked: false }, { _id: false, igdbId: true, gameName: true });
+
+  const [liked, disliked] = await Promise.all([userLiked, userDisliked]);
+
+  return { liked, disliked };
 };

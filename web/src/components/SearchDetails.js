@@ -1,14 +1,13 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import SecureContent from './SecureContent';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiFillLike, AiFillDislike, AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 
 import './index.css';
-import { toggleBookmark } from '../services/server-service';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGameDetails, updateGameLikeDislike } from '../actions/game-actions';
+import SecureContent from './SecureContent';
+import { getGameDetails, toggleBookmark, updateGameLikeDislike } from '../actions/game-actions';
 
 const SearchDetails = () => {
 
@@ -75,7 +74,7 @@ const SearchDetails = () => {
   }, [dislikes]);
 
   const handleBookmark = () => {
-    toggleBookmark(user._id, gameId);
+    toggleBookmark(user._id, gameId, name);
     setIsBookmarked(!isBookmarked);
   };
 
@@ -89,7 +88,7 @@ const SearchDetails = () => {
     // Else it should be undefined (neither liked nor disliked)
     const newLike = !isLiked || undefined;
     const newIsLiked = !!newLike;
-    updateGameLikeDislike(dispatch, gameId, user._id, newLike);
+    updateGameLikeDislike(dispatch, gameId, name, user._id, newLike);
     setIsLiked(newIsLiked);
     setLikesCount(newIsLiked ? likesCount + 1 : likesCount - 1);
   };
@@ -104,7 +103,7 @@ const SearchDetails = () => {
     // Else it should be undefined (neither liked nor disliked).
     const newDislike = isDisliked && undefined;
     const newIsDisliked = newDislike !== undefined;
-    updateGameLikeDislike(dispatch, gameId, user._id, newDislike);
+    updateGameLikeDislike(dispatch, gameId, name, user._id, newDislike);
     setIsDisliked(newIsDisliked);
     setDislikesCount(newIsDisliked ? dislikesCount + 1 : dislikesCount - 1);
   };
@@ -210,19 +209,6 @@ const SearchDetails = () => {
           </div>
         </div>
       </div >
-
-      {/* <button onClick={handleLikes}>
-        Like ({ourMovieDetails.likes})
-      </button>
-      <button>Dislike</button>
-      <h2>Leave a comment</h2>
-      <textarea></textarea>
-      <button>Post</button> */};
-
-      {/* <ul>
-        <li>Alice liked this movie</li>
-        <li>Bob hated this movie</li>
-      </ul> */}
     </div >
   );
 

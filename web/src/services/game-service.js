@@ -15,12 +15,12 @@ export const getGameDetails = async (gameId, userId) => {
   return resp.data;
 };
 
-export const updateGameLikeDislike = async (gameId, userId, isLiked) => {
-  const resp = await axios.patch(`${API_BASE}/api/games/${gameId}/like-dislike`, { userId, isLiked });
+export const toggleBookmark = async (userId, igdbId, gameName) => {
+  const resp = await axios.patch(`${API_BASE}/api/bookmarks`, { userId, igdbId, gameName });
   return resp.data;
 };
 
-// export const updateGameDislike = async (gameId, userId) => {
-//   const resp = await axios.patch(`${API_BASE}/api/games/${gameId}/dislike`, { userId });
-//   return resp.data;
-// };
+export const updateGameLikeDislike = async (gameId, gameName, userId, isLiked) => {
+  const resp = await axios.patch(`${API_BASE}/api/games/${gameId}/like-dislike`, { userId, gameName, isLiked });
+  return resp.data;
+};

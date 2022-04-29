@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import { Link } from 'react-router-dom';
 import {deleteAccount, getNewestUser, getUsers, getVisitedLinks, logout} from "../actions/server-actions";
 
 const Home = () => {
@@ -38,7 +39,7 @@ const Home = () => {
     const deleteUser = async (user) => {
         console.log(user)
         await deleteAccount(user._id)
-        setUsers(users.filter(user => user !== user))
+        setUsers(users.filter(u => u !== user))
 
         if (user._id === session.user._id) {
             await logout(dispatch)
@@ -71,7 +72,7 @@ const Home = () => {
                     {session.user &&
                     <>
                         <h2>Recently Viewed</h2>
-                        {visitedLinks.map((link, i) => <a key={i} className="d-block" href={`/search/details/${link.id}`}>{link.name}</a>)}
+                        {visitedLinks.map((link, i) => <Link key={i} className="d-block" href={`/search/details/${link.id}`}>{link.name}</Link>)}
                     </>
                     }
                 </div>
