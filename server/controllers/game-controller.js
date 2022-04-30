@@ -2,18 +2,20 @@ import * as likeDislikeDao from '../database/likes-dislikes/like-dislike-dao.js'
 import * as userDao from '../database/users/user-dao.js';
 import { getIgdbGames, searchIgdbGames } from '../services/igdb-service.js';
 
+// Renames the game id key to _id to match MongoDB _id fields
+const renameId = ({ id, ...gameData }) => ({ ...gameData, _id: id });
 
 const searchGames = async (req, res) => {
   const searchString = req.query.search;
-  const result = await searchIgdbGames(searchString);
-  res.send(result);
+  const results = await searchIgdbGames(searchString);
+  res.send(results.map(renameId));
 };
 
 export const getGameDetails = async (req, res) => {
   const { igdbId, userId } = req.params;
   try {
     const promises = [];
-    const gameData = await getIgdbGames(igdbId)
+    const gameData = await getIgdbGames(igdbId);
     promises.push(likeDislikeDao.getLikeDislikeCountByGame(igdbId));
 
     if (userId) {
@@ -23,8 +25,8 @@ export const getGameDetails = async (req, res) => {
     }
 
     const data = await Promise.all(promises);
-    data.push(gameData)
-    const reduced = data.reduce((result, datum) => ({ ...result, ...datum }), {})
+    data.push(renameId(gameData));
+    const reduced = data.reduce((result, datum) => ({ ...result, ...datum }), {});
     res.json(reduced);
   } catch (e) {
     res.status(400).send(e);

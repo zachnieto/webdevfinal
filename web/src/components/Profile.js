@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { deleteAccount, deleteAccountAndLogout, deleteUser, updateUser } from "../actions/server-actions";
+import { deleteAccountAndLogout, updateUser } from "../actions/server-actions";
 import PrivateProfileInfo from './PrivateProfileInfo';
 
 const Profile = () => {

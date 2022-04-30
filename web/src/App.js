@@ -43,7 +43,8 @@ function App() {
                             </SecureRoute>}
                     />
                     <Route path="/search" element={<Search />} />
-                    <Route path="/search/:searchString" element={<Search />} />
+                    <Route path="/search/games/:searchString" element={<Search />} />
+                    <Route path="/search/users/:searchString" element={<Search />} />
                     <Route path="/search/details/:gameId" element={<SearchDetails />} />
                 </Routes>
             </Router>

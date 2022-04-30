@@ -80,8 +80,8 @@ export const deleteComment = async (userId, comment) => {
     return resp.data;
 };
 
-export const getUsers = async () => {
-    const resp = await api.get(`${API_BASE}/users`);
+export const getUsers = async (searchQuery) => {
+    const resp = await api.get(`${API_BASE}/users${searchQuery ? `/?search=${searchQuery}` : ''}`);
     return resp.data;
 };
 

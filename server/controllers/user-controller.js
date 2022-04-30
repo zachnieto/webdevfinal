@@ -103,8 +103,9 @@ const deleteComment = async (req, res) => {
     res.sendStatus(200);
 };
 
-const users = async (req, res) => {
-    const users = await userDao.users();
+const getUsers = async (req, res) => {
+    const searchQuery = req.query.search
+    const users = await userDao.users(searchQuery);
     res.json(users);
 };
 
@@ -114,10 +115,9 @@ const getLinks = async (req, res) => {
 };
 
 const getNewestUser = async (req, res) => {
-    const userDatas = await userDao.getNewestUser();
-    res.json(userDatas[0].username);
+    const userData = await userDao.getNewestUser();
+    res.json(userData[0].username);
 };
-
 
 export default (app) => {
     app.put('/update/:uid', updateUser);
@@ -129,7 +129,8 @@ export default (app) => {
     app.get('/profile/private/:username', getPrivateProfile);
     app.post('/comment/:uid', comment);
     app.post('/deletecomment/:uid', deleteComment);
-    app.get('/users', users);
+    app.get('/users', getUsers);
     app.get('/links', getLinks);
     app.get('/newestuser', getNewestUser);
+    app.get('/users/:username')
 };

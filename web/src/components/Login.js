@@ -71,12 +71,21 @@ const Login = () => {
                 {!hasAccount &&
                     <>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="memberButton"
-                                checked onClick={() => setRole("Member")} />
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="memberButton"
+                                defaultChecked
+                                onClick={() => setRole("Member")} />
                             <label className="form-check-label" htmlFor="memberButton"> Member </label>
                         </div>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="adminButton"
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="adminButton"
                                 onClick={() => setRole("Admin")} />
                             <label className="form-check-label" htmlFor="adminButton"> Admin </label>
                         </div>

@@ -5,8 +5,19 @@ export const findUserByUsername = (username) => userModel.findOne({ "username": 
 export const findUserById = (id) => userModel.findOne({ _id: id });
 export const updateUser = (id, user) => userModel.updateOne({ _id: id }, { $set: user });
 export const deleteUser = (id) => userModel.deleteOne({ _id: id });
-export const users = () => userModel.find({}, { password: 0 });
+// Can optionally take in a username to use as a search query
+export const users = (searchQuery) => {
+  const findQuery = {};
 
+  if (searchQuery) {
+    // Escapes all special characters
+    const escapedUsername = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const searchRegex = new RegExp(`${escapedUsername}`, 'i');
+    findQuery.username = searchRegex;
+  }
+
+  return userModel.find(findQuery, { password: 0 });
+};
 export const comment = (id, comment) => userModel.updateOne({ _id: id }, { $push: { comments: comment } });
 export const deleteComment = (id, comment) => userModel.updateOne({ _id: id }, { $pull: { comments: comment } });
 

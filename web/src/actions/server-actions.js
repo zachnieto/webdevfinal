@@ -70,8 +70,8 @@ export const deleteComment = async (userId, comment) => {
     return await serverService.deleteComment(userId, comment)
 }
 
-export const getUsers = async () => {
-    return await serverService.getUsers()
+export const getUsers = async (searchQuery) => {
+    return await serverService.getUsers(searchQuery)
 }
 
 export const getVisitedLinks = async () => {

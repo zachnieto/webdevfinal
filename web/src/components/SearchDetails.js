@@ -26,7 +26,7 @@ const SearchDetails = () => {
   const { gameId: gameParamId } = useParams();
 
   const {
-    id: gameId,
+    _id: gameId,
     name,
     first_release_date: firstReleaseDate,
     companies,
