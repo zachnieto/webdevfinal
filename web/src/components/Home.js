@@ -72,7 +72,7 @@ const Home = () => {
                     {session.user &&
                     <>
                         <h2>Recently Viewed</h2>
-                        {visitedLinks.map((link, i) => <Link key={i} className="d-block" href={`/search/details/${link.id}`}>{link.name}</Link>)}
+                        {visitedLinks.map((link, i) => <Link key={i} className="d-block" to={`/search/details/${link.id}`}>{link.name}</Link>)}
                     </>
                     }
                 </div>

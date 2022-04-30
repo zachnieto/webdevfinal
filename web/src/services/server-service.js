@@ -57,9 +57,11 @@ export const getProfile = async (username) => {
 };
 
 export const getPrivateProfile = async (username) => {
-    const resp = await api.get(`${API_BASE}/profile/private/${username}`);
-    return resp.data;
-}
+    if (username) {
+        const resp = await api.get(`${API_BASE}/profile/private/${username}`);
+        return resp.data;
+    }
+};
 
 export const comment = async (userId, comment) => {
     const resp = await api.post(`${API_BASE}/comment/${userId}`, {
