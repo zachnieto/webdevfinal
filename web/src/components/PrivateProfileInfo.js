@@ -1,39 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getPrivateProfile } from '../actions/server-actions';
 
 const BOOKMARKED = 'BOOKMARKED';
 const LIKED = 'LIKED';
 const DISLIKED = 'DISLIKED';
 
-const PrivateProfileInfo = ({ username }) => {
-  const [privateProfile, setPrivateProfile] = useState({});
+const PrivateProfileInfo = ({ liked, disliked, bookmarked }) => {
   const [content, setContent] = useState([]);
   const [pillName, setPillName] = useState(BOOKMARKED);
 
   useEffect(() => {
-    const fetchPrivateProfile = async () => {
-      const privateProfileData = await getPrivateProfile(username);
-      setPrivateProfile(prevPrivateProfile => ({...prevPrivateProfile, ...privateProfileData}));
-    };
-    fetchPrivateProfile();
-  }, [username]);
-
-  useEffect(() => {
     switch (pillName) {
       case LIKED:
-        setContent(privateProfile.liked);
+        setContent(liked);
         break;
       case DISLIKED:
-        setContent(privateProfile.disliked);
+        setContent(disliked);
         break;
       case BOOKMARKED:
-        setContent(privateProfile.bookmarked);
+        setContent(bookmarked);
         break;
       default:
         setContent([]);
     }
-  }, [pillName, privateProfile]);
+  }, [pillName, liked, disliked, bookmarked]);
 
   return (
     <>

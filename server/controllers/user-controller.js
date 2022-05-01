@@ -71,22 +71,15 @@ const getProfile = async (req, res) => {
     const username = req.params.username;
     const user = await userDao.findUserByUsername(username).lean();
 
-    if (!user)
-        return res.sendStatus(404);
-
-    delete user.password;
-    res.json(user);
-};
-
-const getPrivateProfile = async (req, res) => {
-    const username = req.params.username;
-    const user = await userDao.findUserByUsername(username).lean();
     if (!user) {
-        return res.sendStatus(404)
+        return res.sendStatus(404);
     }
 
     const likesDislikes = await likesDislikesDao.getLikesDislikesByUser(user._id);
-    res.json({ ...likesDislikes, bookmarked: user.bookmarks });
+
+    delete user.password;
+
+    res.json({ ...user, ...likesDislikes });
 };
 
 const comment = async (req, res) => {
@@ -126,7 +119,6 @@ export default (app) => {
     app.put('/login', login);
     app.post('/signup', createUser);
     app.get('/profile/:username', getProfile);
-    app.get('/profile/private/:username', getPrivateProfile);
     app.post('/comment/:uid', comment);
     app.post('/deletecomment/:uid', deleteComment);
     app.get('/users', getUsers);
