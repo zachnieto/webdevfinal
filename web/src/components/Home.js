@@ -65,7 +65,7 @@ const Home = () => {
                         </>
                     }
                 </div>
-                <div className="col-6 ">
+                <div className="col-6 d-md-none d-lg-block">
                     <h1 className="text-center home-header main"><strong>WebDev</strong></h1>
                 </div>
                 <div className="col-3">
